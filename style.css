@@ -1,0 +1,23 @@
+body {
+	font-family:sans-serif;
+}
+ul {
+	clear:both;
+	padding:0;
+	margin:0;
+	list-style:none;
+}
+#dots {
+	
+}
+#dots li {
+	float:left;
+}
+#entries {
+	margin-top:25px;
+}
+#entries li {
+	margin: 15px 0;
+	padding:25px;
+	border:4px solid #666;
+}

@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+	<title>CCAP Timeline Test</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="http://cloud.github.com/downloads/emberjs/ember.js/ember-0.9.6.min.js"></script>
+	<script src="app.js"></script>
+</head>
+<body>
+
+<script type="text/x-handlebars">
+<button {{action "addToTimeline" target="Timeline.dotsController"}}>Add Dot</button>
+</script>
+
+<script type="text/x-handlebars">
+<ul id="dots">
+    {{#view Timeline.timelineView}}
+    	{{#each Timeline.dotsController}}
+        	<li {{bindAttr style="style"}} {{action "showEntry" on="click"}}></li>
+    	{{/each}}
+    {{/view}}
+</ul>
+</script>
+
+<script type="text/x-handlebars">
+<ul id="entries">
+    {{#each Timeline.dotsController}}
+    	{{#if showEntry}}
+        	<li>
+        		<h1>{{title}}</h1>
+        		<h2>{{year}}</h2>
+        		<p>{{text}}<p>
+        	</li>
+        {{/if}}
+    {{/each}}
+</ul>
+</script>
+
+<script type="text/x-handlebars" data-template-name="dot">
+  <div {{bindAttr style="content.color_style"}} {{action "showEntry" on="click" target="Timeline.dotsController"}}>
+    <h1>Title: {{content.title}}</h1>
+    <h2>Year: {{content.year}}</h2>
+    <p>Text: {{content.text}}</p>
+  </div>
+</script>
+
+</body>
+</html>
