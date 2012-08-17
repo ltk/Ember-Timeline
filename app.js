@@ -35,11 +35,11 @@ Timeline.Dot = Em.Object.extend({
 		}
 	}.property(),
 	color_style: function() {
-		return "color:" + this.get('color') + ";";
-	}.property('color'),
+		return "display:" + this.get('display') + ";color:" + this.get('color') + ";";
+	}.property('display', 'color'),
 	style: function() {
-		return "display:" + this.get('display') + ";width:" + this.get('width') + ";height:" + this.get('height') + ";border:" + this.get('border') + ";border-radius:" + this.get('border_radius') + ";margin-left:" + this.get('margin_left') + ";background:" + this.get('background') + ";";
-	}.property('display', 'width', 'height', 'border', 'border_radius', 'margin_left', 'background')
+		return "width:" + this.get('width') + ";height:" + this.get('height') + ";border:" + this.get('border') + ";border-radius:" + this.get('border_radius') + ";margin-left:" + this.get('margin_left') + ";background:" + this.get('background') + ";";
+	}.property('width', 'height', 'border', 'border_radius', 'margin_left', 'background')
 });
 
 /**************************
@@ -63,7 +63,6 @@ Timeline.dotsController = Em.ArrayController.create({
 	    },
 	showEntry: function(e) {
 		var dot = e;
-		console.log( dot );
 		dot.set('background', '#FFFFFF');
 		//alert('this is in the controller')
 	},
@@ -71,19 +70,17 @@ Timeline.dotsController = Em.ArrayController.create({
 		//alert('highlightDot');
 		
 		var dot = e.content;
-		console.log( dot );
 		dot.set('background', '#FFFFFF');
 		dot.set('color', '#333333');
 		dot.set('border', '4px solid #333333');
-		//dot.set('display', 'block');
+		dot.set('display', 'block');
 	},
 	unhighlightDot: function(e) {
 		var dot = e.content;
-		console.log( dot );
 		dot.set('background', '#0066FF');
 		dot.set('color', '#999999');
 		dot.set('border', '4px solid #666666');
-		//dot.set('display', 'none');
+		dot.set('display', 'block');
 	},
 });
 
@@ -97,7 +94,7 @@ Timeline.timelineView = Em.View.extend({
 		//element.css('background', 'green');
 		//alert("Mouse enter!");
 		//console.log(evt.toElement);
-		console.log(e.target);
+
 	},
 	mouseLeave: function(e) {
 		//var element = $(e.target).closest('li');
@@ -106,7 +103,7 @@ Timeline.timelineView = Em.View.extend({
 		//console.log(evt.toElement);
 	},
 	showEntry: function(e) {
-		console.log(e);
+
 		alert('show the entry!');
 	}
 });
@@ -123,24 +120,7 @@ anUndorderedListView = Em.CollectionView.create({
         }),
     itemViewClass: Em.View.extend({
     	itemClass: 'item-class',
-      //template: Em.Handlebars.compile("Title: {{content.title}}"),
-      templateName: 'dot',
-      // mouseEnter: function() {
-
-      // 	var dot = this.content.__proto__;
-      // 	console.log( dot );
-      // 	dot.set('background', '#FFFFFF');
-      // 	dot.set('text', 'asdf');
-      // },
-      // mouseLeave: function() {
-      // 	var dot = this.content.__proto__;
-      // 	dot.set('background', '#0066FF');
-      // },
-      showEntry: function() {
-      	
-      	console.log(this.content.__proto__);
-      	//alert('oh hey there');
-      },
+      templateName: 'entry',
       mouseEnter: function(e) {
       	//this.triggerAction();
       	Timeline.dotsController.highlightDot(this);
@@ -151,4 +131,31 @@ anUndorderedListView = Em.CollectionView.create({
     })
   });
 
-  anUndorderedListView.appendTo('body')
+  
+
+  dotsListView = Em.CollectionView.create({
+      tagName: 'ul',
+      elementId: 'dots',
+      content: Timeline.dotsController.content, //['A','B','C'],
+      emptyView: Ember.View.extend({
+            template: Ember.Handlebars.compile("The collection is empty")
+          }),
+      itemViewClass: Em.View.extend({
+        templateName: 'dot',
+        // attributeBindings: ['style'],
+        // style: function() {
+        //   	console.log( this );
+        //   	return this.content.get('style');
+        // }.property( ),
+        mouseEnter: function(e) {
+        	//this.triggerAction();
+        	Timeline.dotsController.highlightDot(this);
+        },
+        mouseLeave: function(e) {
+        	Timeline.dotsController.unhighlightDot(this);
+        }
+      })
+    });
+
+    dotsListView.appendTo('body')
+    anUndorderedListView.appendTo('body')

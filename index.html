@@ -14,37 +14,21 @@
 <button {{action "addToTimeline" target="Timeline.dotsController"}}>Add Dot</button>
 </script>
 
-<script type="text/x-handlebars">
-<ul id="dots">
-    {{#view Timeline.timelineView}}
-    	{{#each Timeline.dotsController}}
-        	<li {{bindAttr style="style"}} {{action "showEntry" on="click"}}></li>
-    	{{/each}}
-    {{/view}}
-</ul>
-</script>
-
-<script type="text/x-handlebars">
-<ul id="entries">
-    {{#each Timeline.dotsController}}
-    	{{#if showEntry}}
-        	<li>
-        		<h1>{{title}}</h1>
-        		<h2>{{year}}</h2>
-        		<p>{{text}}<p>
-        	</li>
-        {{/if}}
-    {{/each}}
-</ul>
-</script>
-
 <script type="text/x-handlebars" data-template-name="dot">
+    <div {{bindAttr style="content.style"}}></div>
+</script>
+
+<script type="text/x-handlebars" data-template-name="entry">
   <div {{bindAttr style="content.color_style"}} {{action "showEntry" on="click" target="Timeline.dotsController"}}>
     <h1>Title: {{content.title}}</h1>
     <h2>Year: {{content.year}}</h2>
     <p>Text: {{content.text}}</p>
   </div>
 </script>
+
+
+
+
 
 </body>
 </html>
