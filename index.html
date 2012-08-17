@@ -16,6 +16,9 @@
 
 <script type="text/x-handlebars" data-template-name="dot">
     <div {{bindAttr style="content.style"}}></div>
+    {{#if content.showYear }}
+    <span class='year'>{{content.year}}</span>
+    {{/if}}
 </script>
 
 <script type="text/x-handlebars" data-template-name="entry">

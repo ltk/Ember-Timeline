@@ -6,12 +6,6 @@ Timeline = Em.Application.create();
 /**************************
 * Models
 **************************/
-Timeline.Entry = Em.Object.extend({
-	title: 'Default Title',
-	year: '2012',
-	text: 'This is default text.'
-});
-
 Timeline.Dot = Em.Object.extend({
 	title: 'Default Title',
 	year: '2012',
@@ -25,8 +19,9 @@ Timeline.Dot = Em.Object.extend({
 	background: '#0066FF',
 
 	color: '#999999',
-	display: 'block',
+	display: 'none',
 
+	showYear: false,
 	showEntry: false,
 
 	isFirst: function() {
@@ -45,27 +40,12 @@ Timeline.Dot = Em.Object.extend({
 /**************************
 * Controllers
 **************************/
-Timeline.entriesController = Em.ArrayController.create({
-	content: [],
-	makeNewEntry: function() {
-		var t = Timeline.Entry.create();
-		this.pushObject(t);
-		return t;
-	}
-});
-
 Timeline.dotsController = Em.ArrayController.create({
 	content: [],
 	addToTimeline: function() {
 	    var t = Timeline.Dot.create();
 	    this.pushObject(t);
-	    Timeline.entriesController.makeNewEntry();
 	    },
-	showEntry: function(e) {
-		var dot = e;
-		dot.set('background', '#FFFFFF');
-		//alert('this is in the controller')
-	},
 	highlightDot: function(e) {
 		//alert('highlightDot');
 		
@@ -74,13 +54,15 @@ Timeline.dotsController = Em.ArrayController.create({
 		dot.set('color', '#333333');
 		dot.set('border', '4px solid #333333');
 		dot.set('display', 'block');
+		dot.set('showYear', true);
 	},
 	unhighlightDot: function(e) {
 		var dot = e.content;
 		dot.set('background', '#0066FF');
 		dot.set('color', '#999999');
 		dot.set('border', '4px solid #666666');
-		dot.set('display', 'block');
+		dot.set('display', 'none');
+		dot.set('showYear', false);
 	},
 });
 
@@ -114,6 +96,7 @@ Timeline.timelineView = Em.View.extend({
 
 anUndorderedListView = Em.CollectionView.create({
     tagName: 'ul',
+    elementId: 'entries',
     content: Timeline.dotsController.content, //['A','B','C'],
     emptyView: Ember.View.extend({
           template: Ember.Handlebars.compile("The collection is empty")

@@ -12,12 +12,15 @@ ul {
 }
 #dots li {
 	float:left;
+	text-align:center;
 }
 #entries {
-	margin-top:25px;
+	width:600px;
+	margin:25px auto;
+	padding:20px;
+	border:1px solid #999;
+	text-align:center;
 }
 #entries li {
-	margin: 15px 0;
 	padding:25px;
-	border:4px solid #666;
 }
