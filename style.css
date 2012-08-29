@@ -15,10 +15,30 @@ ul {
 	width: 600px;
 	margin:10px auto;
 	clear:both;
+	position:relative;
 }
 #dots li {
 	float:left;
 	text-align:center;
+	margin-top:35px;
+}
+span.shortTitle, span.year {
+	position:absolute;
+	top:0;
+	background:white;
+	
+}
+span.shortTitle {
+	z-index:5;
+	padding:5px;
+	border:1px solid #CDD9E7;
+	color:#193A55;
+	text-transform:uppercase;
+}
+span.year {
+	z-index:4;
+	padding:7px;
+	color:#54A5DA;
 }
 #entries {
 	width:600px;
@@ -28,7 +48,7 @@ ul {
 	clear:both;
 }
 #entries div div{
-	padding:25px;
+	padding:25px 20px;
 	border:1px solid #999;
 	width:500px;
 
@@ -38,4 +58,11 @@ ul {
 }
 .right {
 	float:right;
+}
+#grey-bar {
+	width: 100%;
+	height: 5px;
+	background: #E9E9E9;
+	position: absolute;
+	top: 89px;
 }

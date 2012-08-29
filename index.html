@@ -21,12 +21,15 @@
 </script>
 
 <script type="text/x-handlebars" data-template-name="dot">
-    <div {{bindAttr style="content.style"}}></div>
+    {{#if content.showShortTitle }}
+    <span class='shortTitle'>{{content.year}}: {{content.shortTitle}}</span>
+    {{/if}}
     {{#if content.showYear }}
     <span class='year'>{{content.year}}</span>
     {{/if}}
+    <div {{bindAttr style="content.style"}}></div>
 </script>
-
+<div id="grey-bar"></div>
 <script type="text/x-handlebars" data-template-name="entry">
   <div {{bindAttr style="content.color_style"}} {{bindAttr class="content.position"}} {{action "showEntry" on="click" target="Timeline.dotsController"}}>
     <h1>Title: {{content.title}}</h1>
