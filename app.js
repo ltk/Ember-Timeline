@@ -26,7 +26,16 @@ Timeline.Dot = Em.Object.extend({
 			return '0';
 		} else {
 			var n = Timeline.dotsController.content.length;
-			var margin = ( (940 - (28 * n)) / (n-1));
+			var margin = ( ( ( 940 - ( 28 * n ) ) / ( n - 1 ) ) / 2);
+			return margin + 'px';
+		}
+	}.property('Timeline.dotsController.@each'),
+	margin_right: function() {
+		if(this.get('isLast')){
+			return '0';
+		} else {
+			var n = Timeline.dotsController.content.length;
+			var margin = ( ( ( 940 - ( 28 * n ) ) / ( n - 1 ) ) / 2) ;
 			return margin + 'px';
 		}
 	}.property('Timeline.dotsController.@each'),
@@ -57,11 +66,16 @@ Timeline.Dot = Em.Object.extend({
 			return true;
 		}
 	}.property('Timeline.dotsController.@each'),
+	isLast: function() {
+		if( this.getPosition() == ( Timeline.dotsController.content.length - 1 ) ){
+			return true;
+		}
+	}.property('Timeline.dotsController.@each'),
 	color_style: function() {
 		return "display:" + this.get('display') + ";color:" + this.get('color') + ";";
 	}.property('display', 'color'),
 	style: function() {
-		return "width:" + this.get('width') + ";height:" + this.get('height') + ";border:" + this.get('border') + ";border-radius:" + this.get('border_radius') + ";margin-left:" + this.get('margin_left') + ";background:" + this.get('background') + ";";
+		return "width:" + this.get('width') + ";height:" + this.get('height') + ";border:" + this.get('border') + ";border-radius:" + this.get('border_radius') + ";margin-left:" + this.get('margin_left') + ";margin-right:" + this.get('margin_right') + ";background:" + this.get('background') + ";";
 	}.property('width', 'height', 'border', 'border_radius', 'margin_left', 'background'),
 	getPosition: function() {
 		for(var i=0;i<Timeline.dotsController.content.length;i++){ 
