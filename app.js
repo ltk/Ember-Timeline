@@ -25,9 +25,11 @@ Timeline.Dot = Em.Object.extend({
 		if(this.get('isFirst')){
 			return '0';
 		} else {
-			return '13px';
+			var n = Timeline.dotsController.content.length;
+			var margin = ( (940 - (28 * n)) / (n-1));
+			return margin + 'px';
 		}
-	}.property(),
+	}.property('Timeline.dotsController.@each'),
 	position: function() {
 		var position = '';
 		var num_dots = Timeline.dotsController.content.length;
@@ -74,6 +76,7 @@ Timeline.Dot = Em.Object.extend({
 **************************/
 Timeline.dotsController = Em.ArrayController.create({
 	content: [],
+	current_dot: 0,
 	sort: function() {
 	    var content = this.get("content");
 	    this.set('content', Ember.copy(content.sort(), true));
@@ -153,6 +156,25 @@ Timeline.dotsController = Em.ArrayController.create({
 		dot.set('showYear', true);
 		dot.set('isEnabled', true);
 		dot.set('background', '#54A5DA');
+		this.set('current_dot', dot.getPosition());
+	},
+	nextEvent: function() {
+		var next = this.current_dot + 1;
+		
+		if( next != this.content.length ){
+			this.show({content:this.content[next]});
+		} else {
+			this.show({content:this.content.get('firstObject')});
+		}
+	},
+	prevEvent: function() {
+		var prev = this.current_dot - 1;
+
+		if( prev != -1 ){
+			this.show({content:this.content[prev]});
+		} else {
+			this.show({content:this.content.get('lastObject')});
+		}
 	}
 });
 
@@ -197,6 +219,27 @@ Timeline.EntryTextField = Em.TextField.extend({
     insertNewline: function(){
         Timeline.dotsController.addToTimelineWithContent();
     }
+});
+
+Timeline.PrevButton = Em.View.extend({
+	tagName: 'a',
+	href: '#',
+	classNames: ['event-nav', 'prev-event'],
+	template: Ember.Handlebars.compile('< View Prev'),
+	mouseUp: function(){
+		Timeline.dotsController.prevEvent();
+		// alert('Prev');
+	}
+});
+Timeline.NextButton = Em.View.extend({
+	tagName: 'a',
+	href: '#',
+	classNames: ['event-nav', 'next-event'],
+	template: Ember.Handlebars.compile('View Next >'),
+	mouseUp: function(){
+		Timeline.dotsController.nextEvent();
+		// alert('Next');
+	}
 });
 
 
@@ -328,4 +371,6 @@ anUndorderedListView = Em.CollectionView.create({
     for (eventObj in post_data) {
     	Timeline.dotsController.pushToTimeline(post_data[eventObj].title, post_data[eventObj].year, post_data[eventObj].text, post_data[eventObj].shortTitle, post_data[eventObj].month, post_data[eventObj].imageURL);
     }
+
+    Timeline.dotsController.show({content:Timeline.dotsController.content.get('firstObject')});
     

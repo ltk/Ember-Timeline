@@ -72,9 +72,26 @@ img.event-image {
 	float:right;
 }
 #grey-bar {
-	width: 940px;
+	width: 930px;
 	height: 5px;
 	background: #E9E9E9;
 	position: absolute;
 	top: 274px;
+}
+div.event-nav {
+	width:940px;
+	margin:10px auto;
+}
+a.prev-event, a.next-event {
+	cursor:pointer;
+	color:#aaa;
+}
+a.prev-event:hover, a.next-event:hover {
+	color:#54A5DA;
+}
+div.event-nav a.prev-event {
+	float:left;
+}
+div.event-nav a.next-event {
+	float:right;
 }
