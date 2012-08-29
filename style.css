@@ -7,8 +7,14 @@ ul {
 	margin:0;
 	list-style:none;
 }
+#controls {
+	width:600px;
+	margin:10px auto;
+}
 #dots {
-	
+	width: 600px;
+	margin:10px auto;
+	clear:both;
 }
 #dots li {
 	float:left;
@@ -18,9 +24,18 @@ ul {
 	width:600px;
 	margin:25px auto;
 	padding:20px;
-	border:1px solid #999;
 	text-align:center;
+	clear:both;
 }
-#entries li {
+#entries div div{
 	padding:25px;
+	border:1px solid #999;
+	width:500px;
+
+}
+.left {
+	float:left;
+}
+.right {
+	float:right;
 }

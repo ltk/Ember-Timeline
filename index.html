@@ -11,7 +11,13 @@
 <body>
 
 <script type="text/x-handlebars">
-<button {{action "addToTimeline" target="Timeline.dotsController"}}>Add Dot</button>
+<div id="controls">
+{{view Timeline.EntryTitleField placeholder="Entry Title" valueBinding="Timeline.dotsController.title"}}
+{{view Timeline.EntryYearField placeholder="Entry Year" valueBinding="Timeline.dotsController.year"}}
+{{view Timeline.EntryTextField placeholder="Entry Text" valueBinding="Timeline.dotsController.text"}}
+
+<button {{action "addToTimelineWithContent" target="Timeline.dotsController"}}>Add Dot</button>
+</div>
 </script>
 
 <script type="text/x-handlebars" data-template-name="dot">
@@ -22,7 +28,7 @@
 </script>
 
 <script type="text/x-handlebars" data-template-name="entry">
-  <div {{bindAttr style="content.color_style"}} {{action "showEntry" on="click" target="Timeline.dotsController"}}>
+  <div {{bindAttr style="content.color_style"}} {{bindAttr class="content.position"}} {{action "showEntry" on="click" target="Timeline.dotsController"}}>
     <h1>Title: {{content.title}}</h1>
     <h2>Year: {{content.year}}</h2>
     <p>Text: {{content.text}}</p>
