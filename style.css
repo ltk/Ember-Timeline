@@ -7,12 +7,19 @@ ul {
 	margin:0;
 	list-style:none;
 }
+h4 {
+	text-transform:uppercase;
+}
+#timeline {
+	width:940px;
+	margin:0 auto;
+	overflow:hidden;
+}
 #controls {
 	width:600px;
 	margin:10px auto;
 }
 #dots {
-	width: 600px;
 	margin:10px auto;
 	clear:both;
 	position:relative;
@@ -21,6 +28,9 @@ ul {
 	float:left;
 	text-align:center;
 	margin-top:35px;
+}
+#dots li:first-child div {
+	margin-left:0;
 }
 span.shortTitle, span.year {
 	position:absolute;
@@ -41,17 +51,19 @@ span.year {
 	color:#54A5DA;
 }
 #entries {
-	width:600px;
-	margin:25px auto;
-	padding:20px;
-	text-align:center;
+	padding-top:20px;
 	clear:both;
 }
 #entries div div{
 	padding:25px 20px;
-	border:1px solid #999;
-	width:500px;
+	border:1px solid #54A5DA;
+	width:840px;
 
+}
+img.event-image {
+	float:left;
+	margin:0 20px 20px 0;
+	max-width:50%;
 }
 .left {
 	float:left;
@@ -60,9 +72,9 @@ span.year {
 	float:right;
 }
 #grey-bar {
-	width: 100%;
+	width: 940px;
 	height: 5px;
 	background: #E9E9E9;
 	position: absolute;
-	top: 89px;
+	top: 274px;
 }

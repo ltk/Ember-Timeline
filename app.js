@@ -11,14 +11,23 @@ Timeline.Dot = Em.Object.extend({
 	year: '2012',
 	text: 'This is default text.',
 	shortTitle: 'Default Short Title',
+	month: '',
+	imageURL: 'http://graphics8.nytimes.com/images/2012/01/17/timestopics/global-warming/global-warming-sfSpan.jpg',
 
 	width: '22px',
 	height: '22px',
 	border: '3px solid white',
 	border_radius: '13px',
-	margin_left: '13px',
+	// margin_left: '13px',
 	background: '#E9E9E9',
 	isEnabled: false,
+	margin_left: function() {
+		if(this.get('isFirst')){
+			return '0';
+		} else {
+			return '13px';
+		}
+	}.property(),
 	position: function() {
 		var position = '';
 		var num_dots = Timeline.dotsController.content.length;
@@ -42,10 +51,10 @@ Timeline.Dot = Em.Object.extend({
 	showShortTitle: false,
 
 	isFirst: function() {
-		if( this == Timeline.dotsController.firstObject() ){
+		if( this.getPosition() == 0 ){
 			return true;
 		}
-	}.property(),
+	}.property('Timeline.dotsController.@each'),
 	color_style: function() {
 		return "display:" + this.get('display') + ";color:" + this.get('color') + ";";
 	}.property('display', 'color'),
@@ -123,13 +132,15 @@ Timeline.dotsController = Em.ArrayController.create({
 		me.pushObject(t);
 		// me.sort();
 	},
-	pushToTimeline: function(new_title, new_year, new_text, new_shortTitle) {
+	pushToTimeline: function(new_title, new_year, new_text, new_shortTitle, new_month, new_imageURL) {
 		var me = this;
 		var t = Timeline.Dot.create({
 		    year: new_year,
 		    title: new_title,
 		    text: new_text,
-		    shortTitle: new_shortTitle
+		    shortTitle: new_shortTitle,
+		    month: new_month,
+		    imageURL: new_imageURL
 		});
 		me.pushObject(t);
 		// me.sort();
@@ -243,8 +254,8 @@ anUndorderedListView = Em.CollectionView.create({
       })
     });
 
-    dotsListView.appendTo('body');
-    anUndorderedListView.appendTo('body');
+    dotsListView.appendTo('#timeline');
+    anUndorderedListView.appendTo('#timeline');
 
     var post_data = {
 
@@ -252,53 +263,69 @@ anUndorderedListView = Em.CollectionView.create({
     			shortTitle: 'The Clean Air Act',
     			title: 'The Clean Air Act',
     			year: 1990,
+    			month: 'January',
+    			imageURL: 'http://graphics8.nytimes.com/images/2012/01/17/timestopics/global-warming/global-warming-sfSpan.jpg',
     			text: 'In 1990, CCAP built an effective coalition and played a major role in the passage of SO2 emissions trading program in the Clean Air Act Amendments.  This emission trading program is a landmark policy in the environmental field.'
     		},
     		event2: {
     			shortTitle: 'California Climate Legislation',
     			title: 'Implementation of California Climate Legislation AB-32, Global Warming Solutions Act of 2006',
     			year: 2003,
+    			month: 'January',
+    			imageURL: 'http://www.socialistrevolution.org/wp-content/uploads/2010/07/climate-change_1509200c.jpg',
     			text: 'In January 2006, CCAP released a year-long study on California that showed how Governor Schwarzenegger\'s goal of reducing greenhouse gas (GHG) emissions to 2000 levels by 2010 could be met at no net cost to California consumers.  The report was critical to the enactment of AB 32, The Global Warming Solutions Act of 2006.'
     		},
     		event3: {
     			shortTitle: 'State Climate GHG Reduction Programs',
     			title: 'State Climate GHG Reduction Programs',
     			year: 2004,
+    			month: 'January',
+    			imageURL: 'http://www.solarfeeds.com/wp-content/uploads/hurricane.jpg',
     			text: 'Over the past 15 years, CCAP has facilitated dialogues and provided analysis  across the U.S.  to help states  develop and implement programs to reduce GHG emissions.  These states include Connecticut (2004), Maine (2004), Massachusetts (2004), Minnesota (1999), New Jersey (1998), New York (2003) and Wisconsin (1993).  CCAP’s work for New York resulted in the creation of the Regional Greenhouse Gas Initiative (RGGI), the first cap-and trade program to reduce carbon emissions in the United States.'
     		},
     		event4: {
     			shortTitle: 'EPA and Clean Air Act Advisory Committee',
     			title: 'EPA and Clean Air Act Advisory Committee',
     			year: 2004,
+    			month: 'January',
+    			imageURL: 'http://sustainableenergyz.files.wordpress.com/2012/05/what-is-climate-change.jpg',
     			text: 'CCAP\'s participation on U.S. Environmental Protection Agency\'s (EPA) Clean Air Act Advisory Committee (CAAAC) from 2004-2005 resulted in the Committee\'s recommendation that EPA evaluate industrial, commercial and institutional boilers for possible regulation to assist states in attaining the national ambient air quality standards.  CCAP\'s participation on the CAAAC also resulted in a recommendation to evaluate national/regional requirements for use of low sulfur fuels in residential applications.'
     		},
     		event5: {
     			shortTitle: 'The Clean Air Act',
     			title: 'The Clean Air Act',
     			year: 2006,
+    			month: 'January',
+    			imageURL: 'http://www.scientificamerican.com/media/inline/7D18355C-E7F2-99DF-368C56A242EF6D09_1.jpg',
     			text: 'In 1990, CCAP built an effective coalition and played a major role in the passage of SO2 emissions trading program in the Clean Air Act Amendments.  This emission trading program is a landmark policy in the environmental field.'
     		},
     		event6: {
     			shortTitle: 'California Climate Legislation',
     			title: 'Implementation of California Climate Legislation AB-32, Global Warming Solutions Act of 2006',
     			year: 2008,
+    			month: 'January',
+    			imageURL: 'http://oncirculation.files.wordpress.com/2012/02/sustainability_2009_climate_change1.jpg',
     			text: 'In January 2006, CCAP released a year-long study on California that showed how Governor Schwarzenegger\'s goal of reducing greenhouse gas (GHG) emissions to 2000 levels by 2010 could be met at no net cost to California consumers.  The report was critical to the enactment of AB 32, The Global Warming Solutions Act of 2006.'
     		},
     		event7: {
     			shortTitle: 'State Climate GHG Reduction Programs',
     			title: 'State Climate GHG Reduction Programs',
     			year: 2009,
+    			month: 'January',
+    			imageURL: 'http://www.noaanews.noaa.gov/stories2008/images/surfacetempchange.jpg',
     			text: 'Over the past 15 years, CCAP has facilitated dialogues and provided analysis  across the U.S.  to help states  develop and implement programs to reduce GHG emissions.  These states include Connecticut (2004), Maine (2004), Massachusetts (2004), Minnesota (1999), New Jersey (1998), New York (2003) and Wisconsin (1993).  CCAP’s work for New York resulted in the creation of the Regional Greenhouse Gas Initiative (RGGI), the first cap-and trade program to reduce carbon emissions in the United States.'
     		},
     		event8: {
     			shortTitle: 'EPA and Clean Air Act Advisory Committee',
     			title: 'EPA and Clean Air Act Advisory Committee',
     			year: 2012,
+    			month: 'January',
+    			imageURL: 'http://farm4.staticflickr.com/3057/2577006675_b5dd38dca6.jpg',
     			text: 'CCAP\'s participation on U.S. Environmental Protection Agency\'s (EPA) Clean Air Act Advisory Committee (CAAAC) from 2004-2005 resulted in the Committee\'s recommendation that EPA evaluate industrial, commercial and institutional boilers for possible regulation to assist states in attaining the national ambient air quality standards.  CCAP\'s participation on the CAAAC also resulted in a recommendation to evaluate national/regional requirements for use of low sulfur fuels in residential applications.'
     		}
     };
 
     for (eventObj in post_data) {
-    	Timeline.dotsController.pushToTimeline(post_data[eventObj].title, post_data[eventObj].year, post_data[eventObj].text, post_data[eventObj].shortTitle);
+    	Timeline.dotsController.pushToTimeline(post_data[eventObj].title, post_data[eventObj].year, post_data[eventObj].text, post_data[eventObj].shortTitle, post_data[eventObj].month, post_data[eventObj].imageURL);
     }
     

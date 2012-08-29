@@ -20,6 +20,9 @@
 </div>
 </script>
 
+<div id="timeline">
+  <h1>OUR TIMELINE</h1>
+  <h2>Since 1985, CCAP has made its mark on climate and air quality policy and earned respect around the globe for its innovative policy development and market-based solutions.</h2>
 <script type="text/x-handlebars" data-template-name="dot">
     {{#if content.showShortTitle }}
     <span class='shortTitle'>{{content.year}}: {{content.shortTitle}}</span>
@@ -32,11 +35,14 @@
 <div id="grey-bar"></div>
 <script type="text/x-handlebars" data-template-name="entry">
   <div {{bindAttr style="content.color_style"}} {{bindAttr class="content.position"}} {{action "showEntry" on="click" target="Timeline.dotsController"}}>
-    <h1>Title: {{content.title}}</h1>
-    <h2>Year: {{content.year}}</h2>
-    <p>Text: {{content.text}}</p>
+    <h4>{{content.month}} {{content.year}}</h4>
+    <h1>{{content.title}}</h1>
+    <img {{bindAttr src="content.imageURL"}} class="event-image" alt="Logo">
+    <p>{{content.text}}</p>
   </div>
 </script>
+
+</div><!-- #timeline -->
 
 
 
