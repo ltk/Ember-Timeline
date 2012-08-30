@@ -24,20 +24,16 @@ Timeline.Dot = Em.Object.extend({
 	dotClass: 'inactive',
 	labelClass: 'inactive',
 
+	// Needed to compute the margin
 	dotHeight: 22,
 	dotBorderWidth: 3,
 
-	width: '22px',
-	height: '22px',
-	border: '3px solid white',
-	border_radius: '13px',
-	// margin_left: '13px',
-	background: '#E9E9E9',
-	isEnabled: false,
+	// Auto-computed margins for proper dot spacing
 	margin: function() {
 		var n = Timeline.dotsController.content.length;
 		return ( ( ( Timeline.get('width') - ( ( this.get('dotHeight') + ( this.get('dotBorderWidth') * 2 ) ) * n ) ) / ( n - 1 ) ) / 2);
 	}.property('Timeline.dotsController.@each'),
+
 	margin_left: function() {
 		if(this.get('isFirst')){
 			return '0';
@@ -45,6 +41,7 @@ Timeline.Dot = Em.Object.extend({
 			return this.get('margin') + 'px';
 		}
 	}.property('margin'),
+
 	margin_right: function() {
 		if(this.get('isLast')){
 			return '0';
@@ -52,6 +49,7 @@ Timeline.Dot = Em.Object.extend({
 			return this.get('margin') + 'px';
 		}
 	}.property('margin'),
+
 	position: function() {
 		var position = '';
 		var num_dots = Timeline.dotsController.content.length;
@@ -66,9 +64,6 @@ Timeline.Dot = Em.Object.extend({
 
 	}.property('Timeline.dotsController.@each'),
 
-	color: '#999999',
-	display: 'none',
-
 	showYear: false,
 	showing:false,
 	showEntry: false,
@@ -79,17 +74,18 @@ Timeline.Dot = Em.Object.extend({
 			return true;
 		}
 	}.property('Timeline.dotsController.@each'),
+
 	isLast: function() {
 		if( this.getPosition() == ( Timeline.dotsController.content.length - 1 ) ){
 			return true;
 		}
 	}.property('Timeline.dotsController.@each'),
-	color_style: function() {
-		return "display:" + this.get('display') + ";color:" + this.get('color') + ";";
-	}.property('display', 'color'),
+
 	style: function() {
-		return "width:" + this.get('width') + ";height:" + this.get('height') + ";border:" + this.get('border') + ";border-radius:" + this.get('border_radius') + ";margin-left:" + this.get('margin_left') + ";margin-right:" + this.get('margin_right') + ";background:" + this.get('background') + ";";
-	}.property('width', 'height', 'border', 'border_radius', 'margin_left', 'background'),
+		return "margin-left:" + this.get('margin_left') + ";margin-right:" + this.get('margin_right') + ";";
+	}.property('margin_left', 'margin_right'),
+
+	// This function takes n^2 time. Refactor.
 	getPosition: function() {
 		for(var i=0;i<Timeline.dotsController.content.length;i++){ 
 		    if(Timeline.dotsController.content[i]==this)
@@ -116,10 +112,7 @@ Timeline.dotsController = Em.ArrayController.create({
 	},
 	hide: function(dot) {
 		dot.set('showing', false);
-		dot.set('display', 'none');
 		dot.set('showYear', false);
-		dot.set('isEnabled', false);
-		dot.set('background', '#E9E9E9');
 	},
 	addToTimeline: function() {
 	    var t = Timeline.Dot.create();
@@ -129,24 +122,14 @@ Timeline.dotsController = Em.ArrayController.create({
 		//alert('highlightDot');
 		
 		var dot = e.content;
-		dot.set('isEnabled', true);
-		dot.set('background', '#54A5DA');
-		// dot.set('color', '#333333');
-		// dot.set('border', '4px solid #333333');
-		// dot.set('display', 'block');
 		dot.set('showShortTitle', true);
 	},
 	unhighlightDot: function(e) {
 		
 		var dot = e.content;
 		if(!dot.showing){
-			dot.set('isEnabled', false);
-			dot.set('background', '#E9E9E9');
 		}
 		
-		// dot.set('color', '#999999');
-		// dot.set('border', '4px solid #666666');
-		// dot.set('display', 'none');
 		dot.set('showShortTitle', false);
 	},
 	addToTimelineWithContent: function() {
@@ -179,10 +162,7 @@ Timeline.dotsController = Em.ArrayController.create({
 		this.unshow();
 		var dot = e.content;
 		dot.set('showing', true);
-		dot.set('display', 'block');
 		dot.set('showYear', true);
-		dot.set('isEnabled', true);
-		dot.set('background', '#54A5DA');
 		this.set('current_dot', dot.getPosition());
 	},
 	nextEvent: function() {
@@ -282,6 +262,7 @@ anUndorderedListView = Em.CollectionView.create({
         }),
     itemViewClass: Em.View.extend({
     	itemClass: 'item-class',
+    	classNameBindings: ['this.content.showing'],
       templateName: 'entry',
       mouseEnter: function(e) {
       	//this.triggerAction();
@@ -303,21 +284,18 @@ anUndorderedListView = Em.CollectionView.create({
             template: Ember.Handlebars.compile("The collection is empty")
           }),
       itemViewClass: Em.View.extend({
-      	classNameBindings: ['isEnabled:enabled:disabled'],
-      	isEnabled: false,
+      	classNameBindings: ['this.content.showing','this.content.showYear'],
         templateName: 'dot',
-        // attributeBindings: ['style'],
-        // style: function() {
-        //   	console.log( this );
-        //   	return this.content.get('style');
-        // }.property( ),
+
         mouseEnter: function(e) {
         	//this.triggerAction();
         	Timeline.dotsController.highlightDot(this);
         },
+
         mouseLeave: function(e) {
         	Timeline.dotsController.unhighlightDot(this);
         },
+
         mouseUp: function(e){
         	Timeline.dotsController.show(this);
         }

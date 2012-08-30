@@ -34,7 +34,7 @@
 </script>
 <div id="grey-bar"></div>
 <script type="text/x-handlebars" data-template-name="entry">
-  <div {{bindAttr style="content.color_style"}} {{bindAttr class="content.position"}} {{action "showEntry" on="click" target="Timeline.dotsController"}}>
+  <div {{bindAttr class="content.position"}} {{action "showEntry" on="click" target="Timeline.dotsController"}}>
     <h4>{{content.month}} {{content.year}}</h4>
     <h1>{{content.title}}</h1>
     <img {{bindAttr src="content.imageURL"}} class="event-image" alt="Logo">
