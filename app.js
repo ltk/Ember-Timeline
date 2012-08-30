@@ -55,7 +55,7 @@ Timeline.Dot = Em.Object.extend({
 		var num_dots = Timeline.dotsController.content.length;
 		var position = this.getPosition();
 
-		if( ( position/num_dots ) > 0.5 ) {
+		if( ( position/num_dots ) >= 0.5 ) {
 			position = 'right';
 		} else {
 			position = 'left';
@@ -137,10 +137,12 @@ Timeline.dotsController = Em.ArrayController.create({
 		var title = me.get("title");
 		var year = me.get("year");
 		var text = me.get("text");
+		var shortTitle = me.get('shortTitle');
 		var t = Timeline.Dot.create({
 		    year: year,
 		    title: title,
 		    text: text,
+		    shortTitle: shortTitle
 		});
 		me.pushObject(t);
 		// me.sort();
@@ -218,6 +220,10 @@ Timeline.EntryTitleField = Em.TextField.extend({
 
 });
 
+Timeline.EntryShortTitleField = Em.TextField.extend({
+
+});
+
 Timeline.EntryYearField = Em.TextField.extend({
 
 });
@@ -284,7 +290,7 @@ anUndorderedListView = Em.CollectionView.create({
             template: Ember.Handlebars.compile("The collection is empty")
           }),
       itemViewClass: Em.View.extend({
-      	classNameBindings: ['this.content.showing','this.content.showYear'],
+      	classNameBindings: ['this.content.showing','this.content.showYear', 'this.content.position'],
         templateName: 'dot',
 
         mouseEnter: function(e) {

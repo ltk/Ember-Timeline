@@ -12,6 +12,7 @@
 
 <script type="text/x-handlebars">
 <div id="controls">
+{{view Timeline.EntryShortTitleField placeholder="Entry Short Title" valueBinding="Timeline.dotsController.shortTitle"}}
 {{view Timeline.EntryTitleField placeholder="Entry Title" valueBinding="Timeline.dotsController.title"}}
 {{view Timeline.EntryYearField placeholder="Entry Year" valueBinding="Timeline.dotsController.year"}}
 {{view Timeline.EntryTextField placeholder="Entry Text" valueBinding="Timeline.dotsController.text"}}
@@ -32,7 +33,6 @@
     {{/if}}
     <div {{bindAttr style="content.style"}}></div>
 </script>
-<div id="grey-bar"></div>
 <script type="text/x-handlebars" data-template-name="entry">
   <div {{bindAttr class="content.position"}} {{action "showEntry" on="click" target="Timeline.dotsController"}}>
     <h4>{{content.month}} {{content.year}}</h4>
