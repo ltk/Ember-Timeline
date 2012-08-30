@@ -1,5 +1,7 @@
 body {
 	font-family:sans-serif;
+	width: 940px;
+	margin:0 auto;
 }
 ul {
 	clear:both;
@@ -11,8 +13,8 @@ h4 {
 	text-transform:uppercase;
 }
 #timeline {
-	width:940px;
-	margin:0 auto;
+	width:100%;
+	
 	overflow:hidden;
 }
 #controls {

@@ -1,18 +1,31 @@
 /**************************
 * Application
 **************************/
-Timeline = Em.Application.create();
+Timeline = Em.Application.create({
+	width: function(){
+		return $('#timeline').width();
+	}.property()
+});
 
 /**************************
 * Models
 **************************/
 Timeline.Dot = Em.Object.extend({
+	// Content Attributes
 	title: 'Default Title',
 	year: '2012',
 	text: 'This is default text.',
 	shortTitle: 'Default Short Title',
 	month: '',
 	imageURL: 'http://graphics8.nytimes.com/images/2012/01/17/timestopics/global-warming/global-warming-sfSpan.jpg',
+
+	// Style Attributes
+	entryClass: 'hidden',
+	dotClass: 'inactive',
+	labelClass: 'inactive',
+
+	dotHeight: 22,
+	dotBorderWidth: 3,
 
 	width: '22px',
 	height: '22px',
@@ -21,24 +34,24 @@ Timeline.Dot = Em.Object.extend({
 	// margin_left: '13px',
 	background: '#E9E9E9',
 	isEnabled: false,
+	margin: function() {
+		var n = Timeline.dotsController.content.length;
+		return ( ( ( Timeline.get('width') - ( ( this.get('dotHeight') + ( this.get('dotBorderWidth') * 2 ) ) * n ) ) / ( n - 1 ) ) / 2);
+	}.property('Timeline.dotsController.@each'),
 	margin_left: function() {
 		if(this.get('isFirst')){
 			return '0';
-		} else {
-			var n = Timeline.dotsController.content.length;
-			var margin = ( ( ( 940 - ( 28 * n ) ) / ( n - 1 ) ) / 2);
-			return margin + 'px';
+		} else {	
+			return this.get('margin') + 'px';
 		}
-	}.property('Timeline.dotsController.@each'),
+	}.property('margin'),
 	margin_right: function() {
 		if(this.get('isLast')){
 			return '0';
 		} else {
-			var n = Timeline.dotsController.content.length;
-			var margin = ( ( ( 940 - ( 28 * n ) ) / ( n - 1 ) ) / 2) ;
-			return margin + 'px';
+			return this.get('margin') + 'px';
 		}
-	}.property('Timeline.dotsController.@each'),
+	}.property('margin'),
 	position: function() {
 		var position = '';
 		var num_dots = Timeline.dotsController.content.length;
@@ -310,7 +323,7 @@ anUndorderedListView = Em.CollectionView.create({
         }
       })
     });
-
+  	
     dotsListView.appendTo('#timeline');
     anUndorderedListView.appendTo('#timeline');
 
